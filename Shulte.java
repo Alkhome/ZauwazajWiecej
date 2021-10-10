@@ -1,55 +1,77 @@
-import java.util.Random;
 import java.awt.GridLayout;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Color;
+import java.awt.Font;
+import java.util.Random;
 
+public class Shulte_Table_Medium extends JFrame implements MouseListener{
 
+    JLabel okno[];
 
-public class Shulte extends JFrame implements MouseListener {
-    public Shulte()
+    public static void shuffle(int array[])
     {
-        super( "Tablica Shultego" );
-        this. setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocation(100,100);
-        int poziom_trudnosci = 2;
-
-        if (poziom_trudnosci == 0)
+        Random random = new Random();
+        for(int i = 0; i < array.length; i++)
         {
-            this.setSize(300, 300);
-            this.setLayout(new GridLayout(3, 3));
-            for (int i = 0; i < 9; i++)
-                add(new JButton("" + (i + 1)));
+            int losowy_index = random.nextInt(array.length);
+            int losowa_cyfra_z_tablicy = array[losowy_index];
+            array[losowy_index] = array[i];
+            array[i] = losowa_cyfra_z_tablicy;
+        }
+    }
+
+
+    public Shulte_Table_Medium(){
+
+        super("Tablica");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(500,500);
+        setResizable(false);
+        setLayout(new GridLayout(5,5));
+        addMouseListener(this); // dodaje wykrywanie kliknięcia
+
+        okno = new JLabel[25];
+        int liczby_medium[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25};
+        shuffle(liczby_medium);
+
+        for (int i = 0;i<25;i++){
+
+            okno[i]=new JLabel(""+liczby_medium[i]); //wypełnia środki kwadratów kolejnymi liczbami z pomieszanej tablicy
+            okno[i].setOpaque(true);
+            okno[i].setBackground( Color.WHITE);
+            okno[i].setHorizontalAlignment(SwingConstants.CENTER);
+            okno[i].setFont(new Font("Arial", Font.PLAIN, 40)); //większa czcionka, żeby było lepiej widać
+            okno[i].setBorder(BorderFactory.createLineBorder(Color.black));
+            okno[i].addMouseListener(this); // ten sam Listener do każdego kwadratu
         }
 
-        else if (poziom_trudnosci == 1)
-        {
-            setSize(500, 500);
-            setLayout(new GridLayout(5, 5));
-            for (int i = 0; i < 25; i++)
-                add(new JButton("" + (i + 1)));
-        }
-
-        else if (poziom_trudnosci == 2)
-        {
-            setSize(700, 700);
-            setLayout(new GridLayout(7, 7));
-            for (int i = 0; i < 49; i++)
-                add(new JButton("" + (i + 1)));
-        }
-
-        else {
-
-        }
-
-
+        for (JLabel jLabel : okno) add(jLabel); // dodaje wszystkie kwadraty
         setVisible(true);
     }
-    @Override
-    public void mouseClicked(MouseEvent e)
-    {
+
+@Override
+public void mouseClicked(MouseEvent e) { //naciśnięcie myszki
+
+        //JLabel nacisniete = (JLabel) e.getSource();
 
     }
+
+    public void mousePressed(MouseEvent e){}
+    public void mouseEntered(MouseEvent e) // zmienia kolor na szary, żeby można było zobaczyć, na którym polu jest kursor
+    {
+        JLabel kursor_wjechał = (JLabel) e.getSource();
+        kursor_wjechał.setBackground(Color.LIGHT_GRAY);
+
+    }
+    public void mouseExited(MouseEvent e)
+    {
+        JLabel kursor_oposcil = (JLabel) e.getSource();
+        kursor_oposcil.setBackground(Color.WHITE);
+    } // po wyjściu kursora z danego pola, zmienia z powrotem na białe
+    public void mouseReleased(MouseEvent e){}
+
+
 
 
 }
