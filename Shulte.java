@@ -8,6 +8,7 @@ import java.util.Random;
 public class Shulte_Table_Medium extends JFrame implements MouseListener{
 
     JLabel okno[];
+    int kolejna_liczba = 1;
 
     public static void shuffle(int array[])
     {
@@ -50,10 +51,22 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener{
         setVisible(true);
     }
 
-@Override
-public void mouseClicked(MouseEvent e) { //naciśnięcie myszki
+    @Override
+    public void mouseClicked(MouseEvent e) { //naciśnięcie myszki
 
-        //JLabel nacisniete = (JLabel) e.getSource();
+        JLabel nacisniete = (JLabel) e.getSource();
+
+        if (Integer.parseInt(nacisniete.getText()) == kolejna_liczba) {
+            kolejna_liczba++;
+            //dzwiek ze dobrze
+            if(kolejna_liczba == 26)
+                System.out.println("Przeszedłeś poziom");
+        }
+        else {
+            //dzwiek ze zle
+        }
+
+
 
     }
 
