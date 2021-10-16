@@ -9,7 +9,7 @@ import java.util.Random;
 public class Shulte_Table_Medium extends JFrame implements MouseListener{
 
     JLabel okno[];
-    int kolejna_liczba = 1;
+    private int kolejna_liczba = 1;
 
     public static void shuffle(int array[])
     {
@@ -26,7 +26,8 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener{
 
     public Shulte_Table_Medium(){
 
-        super("Tablica");
+        super("Shulte Medium");
+        setTitle("Twoim zadaniem jest znaleźć liczbę 1.");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500,500);
         setResizable(false);
@@ -58,6 +59,7 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener{
         JLabel nacisniete = (JLabel) e.getSource();
 
         if (Integer.parseInt(nacisniete.getText()) == kolejna_liczba) {
+            setTitle("Ostatnia liczba, która została znaleziona to: " + kolejna_liczba);
             kolejna_liczba++;
             System.out.println("Teraz musisz nacisnąć: " + kolejna_liczba);
             //dzwiek ze dobrze
@@ -71,12 +73,7 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener{
             });
 
         }
-
-
-
-
     }
-
     public void mousePressed(MouseEvent e){}
     public void mouseEntered(MouseEvent e) // zmienia kolor na szary, żeby można było zobaczyć, na którym polu jest kursor
     {
@@ -90,8 +87,5 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener{
         kursor_oposcil.setBackground(Color.WHITE);
     } // po wyjściu kursora z danego pola, zmienia z powrotem na białe
     public void mouseReleased(MouseEvent e){}
-
-
-
 
 }
