@@ -27,7 +27,7 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener{
     public Shulte_Table_Medium(){
 
         super("Shulte Medium");
-        setTitle("Twoim zadaniem jest znaleźć liczbę 1.");
+        setTitle("Twoim zadaniem jest znaleźć liczbę 1.");  // żeby nie było za łatwo, to drobna podpowiedź jest w tytule, a nie dobrze widoczne
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500,500);
         setResizable(false);
