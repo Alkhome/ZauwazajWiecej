@@ -7,9 +7,10 @@ import java.awt.EventQueue;
 import java.util.Random;
 
 public class Shulte_Table_Medium extends JFrame implements MouseListener{
-
+    JFrame ramka_shulte_medium = new JFrame();
     JLabel okno[];
-    private int kolejna_liczba = 1;
+    public static int kolejna_liczba = 1;
+    ImageIcon miniaturka = new ImageIcon("big_brain.jpg");
 
     public static void shuffle(int array[])
     {
@@ -27,12 +28,13 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener{
     public Shulte_Table_Medium(){
 
         super("Shulte Medium");
-        setTitle("Twoim zadaniem jest znaleźć liczbę 1.");  // żeby nie było za łatwo, to drobna podpowiedź jest w tytule, a nie dobrze widoczne
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500,500);
-        setResizable(false);
-        setLayout(new GridLayout(5,5));
-        addMouseListener(this); // dodaje wykrywanie kliknięcia
+        ramka_shulte_medium.setTitle("Twoim zadaniem jest znaleźć liczbę 1.");
+        ramka_shulte_medium.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ramka_shulte_medium.setSize(500,500);
+        ramka_shulte_medium.setResizable(false);
+        ramka_shulte_medium.setLayout(new GridLayout(5,5));
+        ramka_shulte_medium.setIconImage(miniaturka.getImage());
+        ramka_shulte_medium.setLocationRelativeTo(null);
 
         okno = new JLabel[25];
         int liczby_medium[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25};
@@ -49,8 +51,8 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener{
             okno[i].addMouseListener(this); // ten sam Listener do każdego kwadratu
         }
 
-        for (JLabel jLabel : okno) add(jLabel); // dodaje wszystkie kwadraty
-        setVisible(true);
+        for (JLabel jLabel : okno) ramka_shulte_medium.add(jLabel); // dodaje wszystkie kwadraty
+        ramka_shulte_medium.setVisible(true);
     }
 
     @Override
@@ -59,10 +61,12 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener{
         JLabel nacisniete = (JLabel) e.getSource();
 
         if (Integer.parseInt(nacisniete.getText()) == kolejna_liczba) {
-            setTitle("Ostatnia liczba, która została znaleziona to: " + kolejna_liczba);
+            ramka_shulte_medium.setTitle("Ostatnia liczba, która została znaleziona to: " + kolejna_liczba);
             kolejna_liczba++;
             System.out.println("Teraz musisz nacisnąć: " + kolejna_liczba);
-            //dzwiek ze dobrze
+
+            // TimeUnit.MILLISECONDS.sleep(100);
+
 
         }
         if(kolejna_liczba == 26) {
@@ -70,13 +74,23 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener{
             EventQueue.invokeLater(new Runnable() {
                 @Override
                  public void run() {new Zapamietywanie_Numerow_Easy();}
-            });
 
+            });
+            ramka_shulte_medium.dispose();
         }
     }
-    public void mousePressed(MouseEvent e){}
+    public void mousePressed(MouseEvent e) {
+        JLabel wcisniete = (JLabel) e.getSource();
+        if (Integer.parseInt(wcisniete.getText()) == kolejna_liczba) {
+            wcisniete.setBackground(Color.GREEN);
+        }
+        else if (Integer.parseInt(wcisniete.getText()) != kolejna_liczba) {
+            wcisniete.setBackground(Color.RED);
+        }
+    }
     public void mouseEntered(MouseEvent e) // zmienia kolor na szary, żeby można było zobaczyć, na którym polu jest kursor
     {
+
         JLabel kursor_wjechal = (JLabel) e.getSource();
         kursor_wjechal.setBackground(Color.LIGHT_GRAY);
 
@@ -86,6 +100,9 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener{
         JLabel kursor_oposcil = (JLabel) e.getSource();
         kursor_oposcil.setBackground(Color.WHITE);
     } // po wyjściu kursora z danego pola, zmienia z powrotem na białe
-    public void mouseReleased(MouseEvent e){}
+    public void mouseReleased(MouseEvent e){
+        JLabel przycisk_odpuszczony = (JLabel) e.getSource();
+        przycisk_odpuszczony.setBackground(Color.LIGHT_GRAY);
+    }
 
 }
