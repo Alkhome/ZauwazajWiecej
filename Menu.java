@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 public class Menu extends JFrame implements ActionListener {
     static JFrame ramka = new JFrame();
     ImageIcon miniaturka = new ImageIcon("big_brain.jpg");
+    JLabel background = new JLabel(new ImageIcon("menu_bg.jpg"));
     JButton odpalanie_instrukcji  = new JButton("Instrukcja do gry");
     JButton poziom_latwy = new JButton("Latwy");
     JButton poziom_sredni = new JButton("Sredni");
@@ -15,37 +16,41 @@ public class Menu extends JFrame implements ActionListener {
         super("Menu");
         ramka.setTitle("Zauwazaj Wiecej!");
         ramka.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ramka.setSize(700, 700);
+        ramka.setSize(650, 700);
         ramka.setResizable(false);
         ramka.setVisible(true);
         ramka.setIconImage(miniaturka.getImage());
         ramka.setLocationRelativeTo(null);
         ramka.setLayout(null);
 
-        poziom_latwy.setBounds(100,30,300,70);
+        poziom_latwy.setBounds(110,30,350,70);
         poziom_latwy.setFont(new Font("Helvetica Neue",Font.BOLD,37));
         poziom_latwy.addActionListener(this);
-        ramka.getContentPane().add(poziom_latwy);
+        ramka.add(poziom_latwy);
 
-        poziom_sredni.setBounds(100,110,300,70);
+        poziom_sredni.setBounds(60,140,350,70);
         poziom_sredni.setFont(new Font("Helvetica Neue",Font.BOLD,40));
         poziom_sredni.addActionListener(this);
-        ramka.getContentPane().add(poziom_sredni);
+        ramka.add(poziom_sredni);
 
-        poziom_trudny.setBounds(100,200,300,70);
+        poziom_trudny.setBounds(10,250,350,70);
         poziom_trudny.setFont(new Font("Helvetica Neue",Font.BOLD,40));
         poziom_trudny.addActionListener(this);
-        ramka.getContentPane().add(poziom_trudny);
+        ramka.add(poziom_trudny);
 
         odpalanie_instrukcji.addActionListener(this);
         odpalanie_instrukcji.setFont(new Font("Helvetica Neue",Font.BOLD,40));
-        odpalanie_instrukcji.setBounds(100, 290,300,70);
+        odpalanie_instrukcji.setBounds(20, 470,350,70);
         ramka.add(odpalanie_instrukcji);
 
-        wyjdz_z_gry.setBounds(100,400,300,70);
+        wyjdz_z_gry.setBounds(120,580,350,70);
         wyjdz_z_gry.setFont(new Font("Helvetica Neue",Font.BOLD,40));
         wyjdz_z_gry.addActionListener(this);
-        ramka.getContentPane().add(wyjdz_z_gry);
+        ramka.add(wyjdz_z_gry);
+
+        background.setBounds(0,0,650,700);
+        background.setVisible(true);
+        ramka.add(background);
 
     }
 
