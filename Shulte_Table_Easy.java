@@ -11,7 +11,6 @@ public class Shulte_Table_Easy extends JFrame implements MouseListener {
     JLabel[] okno;
     JLabel powrot_dom_menu = new JLabel("Powrot do menu");
     JPanel obszar_gry = new JPanel();
-    //A co gdyby dodać kolejny JPanel do opcji i tam zrobić listener?
     public static int kolejna_liczba;
     ImageIcon miniaturka = new ImageIcon("big_brain.jpg");
 
@@ -41,7 +40,6 @@ public class Shulte_Table_Easy extends JFrame implements MouseListener {
         ramka_shulte_easy.setLayout(null);
         ramka_shulte_easy.setIconImage(miniaturka.getImage());
         ramka_shulte_easy.setLocationRelativeTo(null);
-        ramka_shulte_easy.setBackground(Color.RED);
 
 
         obszar_gry.setLayout(new GridLayout(3,3));
