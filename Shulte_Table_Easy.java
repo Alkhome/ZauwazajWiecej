@@ -9,7 +9,7 @@ import java.util.Random;
 public class Shulte_Table_Easy extends JFrame implements MouseListener {
     JFrame ramka_shulte_easy = new JFrame();
     JLabel[] okno;
-    JLabel powrot_dom_menu = new JLabel("Powrot do menu");
+    JLabel powrot_do_menu = new JLabel("Powrot do menu");
     JPanel obszar_gry = new JPanel();
     public static int kolejna_liczba;
     ImageIcon miniaturka = new ImageIcon("big_brain.jpg");
@@ -40,6 +40,7 @@ public class Shulte_Table_Easy extends JFrame implements MouseListener {
         ramka_shulte_easy.setLayout(null);
         ramka_shulte_easy.setIconImage(miniaturka.getImage());
         ramka_shulte_easy.setLocationRelativeTo(null);
+        ramka_shulte_easy.getContentPane().setBackground(new Color(107, 184, 202));
 
 
         obszar_gry.setLayout(new GridLayout(3,3));
@@ -48,10 +49,14 @@ public class Shulte_Table_Easy extends JFrame implements MouseListener {
 
         ramka_shulte_easy.add(obszar_gry);
 
-        powrot_dom_menu.setBounds(10,610,500,30);
-        powrot_dom_menu.setBorder(BorderFactory.createLineBorder(Color.black));
-        powrot_dom_menu.addMouseListener(this);
-        ramka_shulte_easy.add(powrot_dom_menu);
+        powrot_do_menu.setBounds(15,620,170,30);
+        powrot_do_menu.setBorder(BorderFactory.createLineBorder(Color.black));
+        powrot_do_menu.addMouseListener(this);
+        powrot_do_menu.setOpaque(true);
+        powrot_do_menu.setBackground(Color.WHITE);
+        powrot_do_menu.setFont(new Font("Helvetica Neue", Font.PLAIN, 20));
+        powrot_do_menu.setHorizontalAlignment(SwingConstants.CENTER);
+        ramka_shulte_easy.add(powrot_do_menu);
 
         okno = new JLabel[9];
         int[] liczby_easy = {1,2,3,4,5,6,7,8,9};
@@ -83,13 +88,18 @@ public class Shulte_Table_Easy extends JFrame implements MouseListener {
             System.out.println("Teraz musisz nacisnąć: " + kolejna_liczba);
 
         }
-        if(kolejna_liczba == 10) {
-            System.out.println("Przeszedłeś poziom");
+        if(kolejna_liczba == 5) {
+
             EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {new Zapamietywanie_Numerow_Easy();}
 
             });
+        }
+        if (kolejna_liczba == 10)
+        {
+            System.out.println("Przeszedłeś poziom");
+            Zapamietywanie_Numerow_Easy.ramka.setVisible(true);
             ramka_shulte_easy.dispose();
         }
     }
@@ -113,9 +123,11 @@ public class Shulte_Table_Easy extends JFrame implements MouseListener {
     }
     public void mouseEntered(MouseEvent e) // zmienia kolor na szary, żeby można było zobaczyć, na którym polu jest kursor
     {
-
         JLabel kursor_wjechal = (JLabel) e.getSource();
-        kursor_wjechal.setBackground(Color.LIGHT_GRAY);
+        if (String.valueOf(kursor_wjechal.getText()).equals("Powrot do menu"))
+            kursor_wjechal.setBackground(Color.RED);
+        else
+            kursor_wjechal.setBackground(Color.LIGHT_GRAY);
 
     }
     public void mouseExited(MouseEvent e)

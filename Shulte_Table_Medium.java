@@ -7,11 +7,10 @@ import java.awt.EventQueue;
 import java.util.Random;
 
 public class Shulte_Table_Medium extends JFrame implements MouseListener {
-    JFrame ramka_shulte_easy = new JFrame();
+    JFrame ramka_shulte_medium = new JFrame();
     JLabel[] okno;
-    JLabel powrot_dom_menu = new JLabel("Powrot do menu");
+    JLabel powrot_do_menu = new JLabel("Powrot do menu");
     JPanel obszar_gry = new JPanel();
-    //A co gdyby dodać kolejny JPanel do opcji i tam zrobić listener?
     public static int kolejna_liczba;
     ImageIcon miniaturka = new ImageIcon("big_brain.jpg");
 
@@ -34,25 +33,30 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener {
 
         kolejna_liczba = 1;
 
-        ramka_shulte_easy.setTitle("Twoim zadaniem jest znaleźć liczbę 1.");
-        ramka_shulte_easy.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ramka_shulte_easy.setSize(650,700);
-        ramka_shulte_easy.setResizable(false);
-        ramka_shulte_easy.setLayout(null);
-        ramka_shulte_easy.setIconImage(miniaturka.getImage());
-        ramka_shulte_easy.setLocationRelativeTo(null);
+        ramka_shulte_medium.setTitle("Twoim zadaniem jest znaleźć liczbę 1.");
+        ramka_shulte_medium.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ramka_shulte_medium.setSize(650,700);
+        ramka_shulte_medium.setResizable(false);
+        ramka_shulte_medium.setLayout(null);
+        ramka_shulte_medium.setIconImage(miniaturka.getImage());
+        ramka_shulte_medium.setLocationRelativeTo(null);
+        ramka_shulte_medium.getContentPane().setBackground(new Color(107, 184, 202));
 
 
         obszar_gry.setLayout(new GridLayout(5,5));
         obszar_gry.setSize(650,600);
         obszar_gry.setVisible(true);
 
-        ramka_shulte_easy.add(obszar_gry);
+        ramka_shulte_medium.add(obszar_gry);
 
-        powrot_dom_menu.setBounds(10,610,500,30);
-        powrot_dom_menu.setBorder(BorderFactory.createLineBorder(Color.black));
-        powrot_dom_menu.addMouseListener(this);
-        ramka_shulte_easy.add(powrot_dom_menu);
+        powrot_do_menu.setBounds(15,620,170,30);
+        powrot_do_menu.setBorder(BorderFactory.createLineBorder(Color.black));
+        powrot_do_menu.addMouseListener(this);
+        powrot_do_menu.setOpaque(true);
+        powrot_do_menu.setBackground(Color.WHITE);
+        powrot_do_menu.setFont(new Font("Helvetica Neue", Font.PLAIN, 20));
+        powrot_do_menu.setHorizontalAlignment(SwingConstants.CENTER);
+        ramka_shulte_medium.add(powrot_do_menu);
 
         okno = new JLabel[25];
         int liczby_medium[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25};
@@ -70,7 +74,7 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener {
         }
 
         for (JLabel jLabel : okno) obszar_gry.add(jLabel); // dodaje wszystkie kwadraty
-        ramka_shulte_easy.setVisible(true);
+        ramka_shulte_medium.setVisible(true);
     }
 
     @Override //problem jest funkcja if tutaj, przydaloby sie ją zmienić, bo wywala błąd jak naciska się litery nie cyfry
@@ -79,22 +83,27 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener {
         JLabel nacisniete = (JLabel) e.getSource();
 
         if (String.valueOf(nacisniete.getText()).equals( String.valueOf(kolejna_liczba))) {
-            ramka_shulte_easy.setTitle("Ostatnia liczba, która została znaleziona to: " + kolejna_liczba);
+            ramka_shulte_medium.setTitle("Ostatnia liczba, która została znaleziona to: " + kolejna_liczba);
             kolejna_liczba++;
             System.out.println("Teraz musisz nacisnąć: " + kolejna_liczba);
 
         }
-        if(kolejna_liczba == 26) {
-            System.out.println("Przeszedłeś poziom");
+        if(kolejna_liczba == 22) { //do zmiany
+
             EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {new Zapamietywanie_Numerow_Easy();}
 
             });
-            ramka_shulte_easy.dispose();
+        }
+        if (kolejna_liczba == 26)
+        {
+            System.out.println("Przeszedłeś poziom");
+            Zapamietywanie_Numerow_Easy.ramka.setVisible(true);
+            ramka_shulte_medium.dispose();
         }
     }
-    public void mousePressed(MouseEvent e) { //zmienic to na gorze na dzialanie na strina=gach
+    public void mousePressed(MouseEvent e) {
         JLabel wcisniete = (JLabel) e.getSource();
         if (String.valueOf(wcisniete.getText()).equals( String.valueOf(kolejna_liczba))) {
             wcisniete.setBackground(Color.GREEN);
@@ -104,6 +113,7 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener {
         }
         if (String.valueOf(wcisniete.getText()).equals("Powrot do menu"))
         {
+            ramka_shulte_medium.dispose();
             EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {new Menu();}
@@ -113,9 +123,11 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener {
     }
     public void mouseEntered(MouseEvent e) // zmienia kolor na szary, żeby można było zobaczyć, na którym polu jest kursor
     {
-
         JLabel kursor_wjechal = (JLabel) e.getSource();
-        kursor_wjechal.setBackground(Color.LIGHT_GRAY);
+        if (String.valueOf(kursor_wjechal.getText()).equals("Powrot do menu"))
+            kursor_wjechal.setBackground(Color.RED);
+        else
+            kursor_wjechal.setBackground(Color.LIGHT_GRAY);
 
     }
     public void mouseExited(MouseEvent e)
