@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
-public class Zapamietywanie_Numerow_Easy extends Ramka_Do_Gry implements ActionListener {
+public class Zapamietywanie_Numerow_Hard extends Ramka_Do_Gry implements ActionListener {
     Random random = new Random();
     JButton potwierdz = new JButton("Potwierdź");
     JButton potwierdzenie_zapamietania = new JButton("Zapamiętano");
@@ -15,7 +15,7 @@ public class Zapamietywanie_Numerow_Easy extends Ramka_Do_Gry implements ActionL
     int lp_zgadywanego_numeru = 1;
     int zmienna;
 
-    public Zapamietywanie_Numerow_Easy() {
+    public Zapamietywanie_Numerow_Hard() {
 
         new Ramka_Do_Gry();
         powrot_do_menu.addActionListener(this);
@@ -65,14 +65,14 @@ public class Zapamietywanie_Numerow_Easy extends Ramka_Do_Gry implements ActionL
 
         int wygenerowany_numer = -1;
         if (lp_zgadywanego_numeru == 1 || lp_zgadywanego_numeru == 2) {
-            wygenerowany_numer = random.nextInt(900) + 100;
-        } //3 cyfry
+            wygenerowany_numer = random.nextInt(9000000)+1000000; //7 cyfr
+        }
         if (lp_zgadywanego_numeru == 3 || lp_zgadywanego_numeru == 4) {
-            wygenerowany_numer = random.nextInt(9000) + 1000;
-        }  //4 cyfry
+            wygenerowany_numer = random.nextInt(90000000)+10000000; //8 cyfr
+        }
         if (lp_zgadywanego_numeru == 5) {
-            wygenerowany_numer = random.nextInt(90000)+10000;
-        }  // 5 cyfr
+            wygenerowany_numer = random.nextInt(900000000)+100000000; //9 cyfr
+        }
         return wygenerowany_numer;
     }
 
