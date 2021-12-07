@@ -4,15 +4,18 @@ import java.awt.event.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.EventQueue;
-import java.util.Random;
+import java.io.*;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
-public class Shulte_Table_Easy extends JFrame implements MouseListener {
+public class Shulte_Table_Easy implements MouseListener {
     JFrame ramka_shulte_easy = new JFrame();
     JLabel[] okno;
     JLabel powrot_do_menu = new JLabel("Powrot do menu");
     JPanel obszar_gry = new JPanel();
-    public static int kolejna_liczba;
-    ImageIcon miniaturka = new ImageIcon("big_brain.jpg");
+
+    int kolejna_liczba;
 
     public static void shuffle(int[] array)
     {
@@ -29,7 +32,38 @@ public class Shulte_Table_Easy extends JFrame implements MouseListener {
 
     public Shulte_Table_Easy(){
 
-        super("Shulte Easy");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyy HH:mm:ss");
+        LocalDateTime ldt = LocalDateTime.now();
+        String czas_poczatkowy = dtf.format(ldt);
+
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("scores.txt"));
+            String line = reader.readLine();
+            List<String> temp_array = new ArrayList<>();
+
+            while (line != null)
+            {
+                temp_array.add(line);
+                line = reader.readLine();
+
+            }
+            String[] tempsArray = temp_array.toArray(new String[0]);
+
+            try {
+                FileWriter myWriter = new FileWriter("scores.txt", false);
+                tempsArray[0] = czas_poczatkowy;
+                for (int i = 0; i < tempsArray.length; i++) {
+                    myWriter.write(tempsArray[i] + "\n");
+                }
+                myWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
         kolejna_liczba = 1;
 
@@ -38,10 +72,8 @@ public class Shulte_Table_Easy extends JFrame implements MouseListener {
         ramka_shulte_easy.setSize(650,700);
         ramka_shulte_easy.setResizable(false);
         ramka_shulte_easy.setLayout(null);
-        ramka_shulte_easy.setIconImage(miniaturka.getImage());
         ramka_shulte_easy.setLocationRelativeTo(null);
         ramka_shulte_easy.getContentPane().setBackground(new Color(107, 184, 202));
-
 
         obszar_gry.setLayout(new GridLayout(3,3));
         obszar_gry.setSize(650,600);
@@ -54,7 +86,7 @@ public class Shulte_Table_Easy extends JFrame implements MouseListener {
         powrot_do_menu.addMouseListener(this);
         powrot_do_menu.setOpaque(true);
         powrot_do_menu.setBackground(Color.WHITE);
-        powrot_do_menu.setFont(new Font("Helvetica Neue", Font.PLAIN, 20));
+        powrot_do_menu.setFont(new Font("DejaVu Sans Mono", Font.PLAIN, 20));
         powrot_do_menu.setHorizontalAlignment(SwingConstants.CENTER);
         ramka_shulte_easy.add(powrot_do_menu);
 
@@ -66,9 +98,9 @@ public class Shulte_Table_Easy extends JFrame implements MouseListener {
 
             okno[i]=new JLabel(""+liczby_easy[i]); //wypełnia środki kwadratów kolejnymi liczbami z pomieszanej tablicy
             okno[i].setOpaque(true);
-            okno[i].setBackground( Color.WHITE);
+            okno[i].setBackground(Color.WHITE);
             okno[i].setHorizontalAlignment(SwingConstants.CENTER);
-            okno[i].setFont(new Font("Arial", Font.PLAIN, 40)); //większa czcionka, żeby było lepiej widać
+            okno[i].setFont(new Font("DejaVu Sans Mono", Font.PLAIN, 40)); //większa czcionka, żeby było lepiej widać
             okno[i].setBorder(BorderFactory.createLineBorder(Color.black));
             okno[i].addMouseListener(this); // ten sam Listener do każdego kwadratu
         }
@@ -77,7 +109,7 @@ public class Shulte_Table_Easy extends JFrame implements MouseListener {
         ramka_shulte_easy.setVisible(true);
     }
 
-    @Override //problem jest funkcja if tutaj, przydaloby sie ją zmienić, bo wywala błąd jak naciska się litery nie cyfry
+    @Override
     public void mouseClicked(MouseEvent e) { //naciśnięcie myszki
 
         JLabel nacisniete = (JLabel) e.getSource();
@@ -88,18 +120,10 @@ public class Shulte_Table_Easy extends JFrame implements MouseListener {
             System.out.println("Teraz musisz nacisnąć: " + kolejna_liczba);
 
         }
-        if(kolejna_liczba == 5) {
+        if(kolejna_liczba == 10) { //zmenic, to tylko po to, zeby naprawic blad w kolejnej grze
 
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {new Zapamietywanie_Numerow_Easy();}
-
-            });
-        }
-        if (kolejna_liczba == 10)
-        {
-            System.out.println("Przeszedłeś poziom");
-            Zapamietywanie_Numerow_Easy.ramka.setVisible(true);
+            Zapamietywanie_Numerow_Easy zne = new Zapamietywanie_Numerow_Easy();
+            zne.ramka.setVisible(true);
             ramka_shulte_easy.dispose();
         }
     }
@@ -113,12 +137,12 @@ public class Shulte_Table_Easy extends JFrame implements MouseListener {
         }
         if (String.valueOf(wcisniete.getText()).equals("Powrot do menu"))
         {
-            ramka_shulte_easy.dispose();
             EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {new Menu();}
 
             });
+            ramka_shulte_easy.dispose();
         }
     }
     public void mouseEntered(MouseEvent e) // zmienia kolor na szary, żeby można było zobaczyć, na którym polu jest kursor

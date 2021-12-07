@@ -4,14 +4,22 @@ import java.awt.event.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.EventQueue;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class Shulte_Table_Hard extends JFrame implements MouseListener {
+public class Shulte_Table_Hard implements MouseListener {
     JFrame ramka_shulte_hard = new JFrame();
     JLabel[] okno;
     JLabel powrot_do_menu = new JLabel("Powrot do menu");
     JPanel obszar_gry = new JPanel();
-    public static int kolejna_liczba;
+    int kolejna_liczba;
     ImageIcon miniaturka = new ImageIcon("big_brain.jpg");
 
     public static void shuffle(int[] array)
@@ -29,8 +37,37 @@ public class Shulte_Table_Hard extends JFrame implements MouseListener {
 
     public Shulte_Table_Hard(){
 
-        super("Shulte Easy");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyy HH:mm:ss");
+        LocalDateTime ldt = LocalDateTime.now();
+        String czas_poczatkowy = dtf.format(ldt);
 
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("scores.txt"));
+            String line = reader.readLine();
+            List<String> temp_array = new ArrayList<>();
+
+            while (line != null)
+            {
+                temp_array.add(line);
+                line = reader.readLine();
+
+            }
+            String[] tempsArray = temp_array.toArray(new String[0]);
+
+            try {
+                FileWriter myWriter = new FileWriter("scores.txt", false);
+                tempsArray[0] = czas_poczatkowy;
+                for (int i = 0; i < tempsArray.length; i++) {
+                    myWriter.write(tempsArray[i] + "\n");
+                }
+                myWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
         kolejna_liczba = 1;
 
         ramka_shulte_hard.setTitle("Twoim zadaniem jest znaleźć liczbę 1.");
@@ -54,7 +91,7 @@ public class Shulte_Table_Hard extends JFrame implements MouseListener {
         powrot_do_menu.addMouseListener(this);
         powrot_do_menu.setOpaque(true);
         powrot_do_menu.setBackground(Color.WHITE);
-        powrot_do_menu.setFont(new Font("Helvetica Neue", Font.PLAIN, 20));
+        powrot_do_menu.setFont(new Font("DejaVu Sans Mono", Font.PLAIN, 20));
         powrot_do_menu.setHorizontalAlignment(SwingConstants.CENTER);
         ramka_shulte_hard.add(powrot_do_menu);
 
@@ -98,8 +135,8 @@ public class Shulte_Table_Hard extends JFrame implements MouseListener {
         }
         if (kolejna_liczba == 50)
         {
-            System.out.println("Przeszedłeś poziom");
-            Zapamietywanie_Numerow_Easy.ramka.setVisible(true);
+            Zapamietywanie_Numerow_Hard znh = new Zapamietywanie_Numerow_Hard();
+            znh.ramka.setVisible(true);
             ramka_shulte_hard.dispose();
         }
     }

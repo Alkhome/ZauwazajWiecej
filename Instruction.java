@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,8 +13,8 @@ public class Instruction extends JFrame implements ActionListener{
 
 
     public Instruction(){
-        super("Instrukcja");
-        ramka.setTitle("Probojemy cos");
+        super();
+        ramka.setTitle("INSTRUKCJA");
         ramka.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ramka.setSize(650,700);
         ramka.setResizable(false);
@@ -23,9 +24,11 @@ public class Instruction extends JFrame implements ActionListener{
         ramka.setLayout(null);
         sp.setBounds(20,20,610,580);
         ramka.getContentPane().add(sp);
+        ramka.getContentPane().setBackground(new Color(107, 184, 202));
 
 
         przycisk_powrotu.setBounds(430,610,200,50);//zmienic - obliczyc
+        przycisk_powrotu.setFont(new Font("DejaVu Sans Mono", Font.PLAIN, 20));
         ramka.add(przycisk_powrotu);
         przycisk_powrotu.addActionListener(this);
 

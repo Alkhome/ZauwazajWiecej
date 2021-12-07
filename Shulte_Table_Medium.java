@@ -4,14 +4,22 @@ import java.awt.event.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.EventQueue;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class Shulte_Table_Medium extends JFrame implements MouseListener {
+public class Shulte_Table_Medium implements MouseListener {
     JFrame ramka_shulte_medium = new JFrame();
     JLabel[] okno;
     JLabel powrot_do_menu = new JLabel("Powrot do menu");
     JPanel obszar_gry = new JPanel();
-    public static int kolejna_liczba;
+    int kolejna_liczba;
     ImageIcon miniaturka = new ImageIcon("big_brain.jpg");
 
     public static void shuffle(int[] array)
@@ -29,8 +37,38 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener {
 
     public Shulte_Table_Medium(){
 
-        super("Shulte Easy");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyy HH:mm:ss");
+        LocalDateTime ldt = LocalDateTime.now();
+        String czas_poczatkowy = dtf.format(ldt);
 
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("scores.txt"));
+            String line = reader.readLine();
+            List<String> temp_array = new ArrayList<>();
+
+            while (line != null)
+            {
+                temp_array.add(line);
+                line = reader.readLine();
+
+            }
+            String[] tempsArray = temp_array.toArray(new String[0]);
+
+            try {
+                FileWriter myWriter = new FileWriter("scores.txt", false);
+                tempsArray[0] = czas_poczatkowy;
+                for (int i = 0; i < tempsArray.length; i++) {
+                    myWriter.write(tempsArray[i] + "\n");
+                }
+                myWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
         kolejna_liczba = 1;
 
         ramka_shulte_medium.setTitle("Twoim zadaniem jest znaleźć liczbę 1.");
@@ -54,7 +92,7 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener {
         powrot_do_menu.addMouseListener(this);
         powrot_do_menu.setOpaque(true);
         powrot_do_menu.setBackground(Color.WHITE);
-        powrot_do_menu.setFont(new Font("Helvetica Neue", Font.PLAIN, 20));
+        powrot_do_menu.setFont(new Font("DejaVu Sans Mono", Font.PLAIN, 20));
         powrot_do_menu.setHorizontalAlignment(SwingConstants.CENTER);
         ramka_shulte_medium.add(powrot_do_menu);
 
@@ -88,18 +126,14 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener {
             System.out.println("Teraz musisz nacisnąć: " + kolejna_liczba);
 
         }
-        if(kolejna_liczba == 22) { //do zmiany
-
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {new Zapamietywanie_Numerow_Easy();}
-
-            });
-        }
         if (kolejna_liczba == 26)
         {
             System.out.println("Przeszedłeś poziom");
-            Zapamietywanie_Numerow_Easy.ramka.setVisible(true);
+            EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {new Zapamietywanie_Numerow_Medium();}
+
+            });
             ramka_shulte_medium.dispose();
         }
     }
@@ -113,12 +147,12 @@ public class Shulte_Table_Medium extends JFrame implements MouseListener {
         }
         if (String.valueOf(wcisniete.getText()).equals("Powrot do menu"))
         {
-            ramka_shulte_medium.dispose();
             EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {new Menu();}
 
             });
+            ramka_shulte_medium.dispose();
         }
     }
     public void mouseEntered(MouseEvent e) // zmienia kolor na szary, żeby można było zobaczyć, na którym polu jest kursor
